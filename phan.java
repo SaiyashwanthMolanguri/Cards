@@ -35,7 +35,7 @@ class Cards{
 	}
 	
 	int getCardNumber(){
-		return 
+		return cardNum;
 	}
 		
 	String getSuit(){
