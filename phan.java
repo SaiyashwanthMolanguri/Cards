@@ -41,7 +41,12 @@ class Cards{
 	String getSuit(){
 		return cardSuit[pip];
 	}
-
+	
+	public static void main(String[] args[]){
+		int a =Integer.parse.Int(args[0]);
+		Cards a = new Cards(a);
+		System.out.println(a.cardNumber());
+	}
 
 }
 
