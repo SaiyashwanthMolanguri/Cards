@@ -1,80 +1,52 @@
-import java.util.*;
-
 class Cards{
 
-	int pip;
-	String suit;
+	String pip;
+	int cardNum;
+	int suit;
+	static String[]  cardSuit = new String[4];
+	static String[]  cardNumber = new cardNumber[13];
 	
-	Cards(int pip , String suit){
-		this.pip = pip;
-		this.suit = suit;
+	static{
+		cardSuit[0] = "CLUBS";
+		cardSuit[1] ="DIAMOND";
+		cardSuit[2] ="HEART";
+		cardSuit[3] = "SPADES";
+		
+		for(int i=0;i<13;++i)
+			cardNumber[i]= (i+1).toString();
+		
+		cardNumber[0]="A";
+		cardNumber[10]= "J";
+		cardNumber[11]="Q";	
+		cardNumber[12]="K";
+	
 	}
 	
-	void string toString(){
-		System.out.println("This is "+ pip+" of "+suit);
+	Cards(int n){
+		
+		cardNum = n/13+1;
+		pip= cardNumber[n%13]
+		suit = cardSuit[n/13];
+		
+	}
 	
+	String getPip(){
+		return pip;
+	}
+	
+	int getCardNumber(){
+		return cardNum;
+	}
+		
+	String getSuit(){
+		return cardSuit[pip];
+	}
+	
+	public static void main(String[] args[]){
+		int a =Integer.parse.Int(args[0]);
+		Cards a = new Cards(a);
+		System.out.println(a.cardNumber());
 	}
 
 }
-
-class Deck implements Comparator{
-	
-	int noOfCardsLeft;
-	ArrayList<Cards> deck;
-	
-	Deck(String suit){
-		noOfCardsLeft = 13;
-		deck = new ArrayList<Cards>();
-		
-		for(int i=1; i<=13;++i)
-			deck.add(i,suit); 
-	
-	}
-
-	void drawACard(Card c){
-		deck.remove(c); 
-	}
-	
-	void sortCards(){
-		Collections.sort(deck);
-	}
-	
-	public int compare(Cards c1, Cards c2){
-		return (c1.pip- c2.pip);
-	}
-	
-}
-
-class DiamondGame{
-	
-	String name;
-	String playerSuit;
-	String computerSuit;
-	int playerTurn;
-	int computerTurn;
-	boolean 
-	DiamondGame(String name){
-		this.name = name;
-		begin();
-	}			
-	
-	void begin(){
-		Random rand;
-		int randomNum = rand.nextInt((2);
-		
-		playerTurn = randomNum;
-		computerTurn= (randomNum+1)%2;
-		
-		while(gameContinue){
-		
-		}
-		
-		
-	}
-	
-	
-
-}	
-	
-	
 
