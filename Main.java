@@ -4,6 +4,19 @@ class Cards implements Comparable<Cards>{
 
 	int pip;
 	String suit;
+	static String[] names  = new String[14];
+	
+	static{
+		for(int i=0;i<=13;++i)
+			names[i]= Integer.toString(i);
+		
+		names[1]  =  "ACE";
+		names[11] = "JOKER";
+		names[12] = "QUEEN";
+		names[13] = "KING";
+	
+	}
+	
 	
 	Cards(int pip , String suit){
 		this.pip = pip;
@@ -22,6 +35,9 @@ class Cards implements Comparable<Cards>{
 			return (c2.getCardNumber() - this.getCardNumber() ); 	
 	}
 	
+	public String printCard(){
+		 return "( "+names[this.getCardNumber()]+","+ this.getCardSuit()+" ) ";
+	}
 }
 
 
@@ -64,7 +80,7 @@ class Hand{
 	public String toString(){
 		String ans ="";
 		for(Cards c: seq)
-			ans += "( "+c.getCardNumber() +" , " +c.getCardSuit()+" ) ";
+			ans += c.printCard() + " ";
 			
 		return ans;
 		
