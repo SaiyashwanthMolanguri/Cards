@@ -48,11 +48,11 @@ class Hand{
 		int randomNum;
 			
 		while(count<5){
-			randomNum = rand.neitInt(53);
+			randomNum = rand.nextInt(52);
 			
 			if(!taken[randomNum]){
 				taken[randomNum] =true;
-				seq.add(new Cards(randomNum%13 ,suit[randomNum/13]));
+				seq.add(new Cards(randomNum%13+1 ,suit[randomNum/13]));
 				++count;	
 			}
 					
@@ -61,6 +61,14 @@ class Hand{
 		Collections.sort(seq);
 	}
 	
+	public String toString(){
+		String ans ="";
+		for(Cards c: seq)
+			ans += "( "+c.getCardNumber() +" , " +c.getCardSuit()+" ) ";
+			
+		return ans;
+		
+	}
 	
 	
 }
@@ -77,149 +85,205 @@ class Poker{
 	
 	}
 	
-	public Hand whoIsWinner(){
+	public void result(){
 	
-	ArrayList<Boolean> result1 = new ArrayList<Boolean>(10);
-	ArrayList<Boolean> result2 = new ArrayList<Boolean>(10);
-
-	result1.add(royalflush(h1));
-	result1.add(straightflush(h1));
-	result1.add(fourofakind(h1));
-	result1.add(fullhouse(h1));
-	result1.add(flush(h1));
-	result1.add(straight(h1));
-	result1.add(threeofakind(h1));
-	result1.add(twopair(h1));
-	result1.add(onepair(h1));
-	result1.add(highCard(h1));
+		ArrayList<Boolean> result1 = new ArrayList<Boolean>();
+		ArrayList<Boolean> result2 = new ArrayList<Boolean>();
+		Hand winner ,loser;
 	
-	result2.add(royalflush(h2));
-	result2.add(straightflush(h2));
-	result2.add(fourofakind(h2));
-	result2.add(fullhouse(h2));
-	result2.add(flush(h2));
-	result2.add(straight(h2));
-	result2.add(threeofakind(h2));
-	result2.add(twopair(h2));
-	result2.add(onepair(h2));
-	result2.add(highCard(h2));
-	}	
+		result1.add(royalflush(h1));
+		result1.add(straightflush(h1));
+		result1.add(fourofakind(h1));
+		result1.add(fullhouse(h1));
+		result1.add(flush(h1));
+		result1.add(straight(h1));
+		result1.add(threeofakind(h1));
+		result1.add(twopair(h1));
+		result1.add(onepair(h1));
+		result1.add(highCard(h1));
+	
+		result2.add(royalflush(h2));
+		result2.add(straightflush(h2));
+		result2.add(fourofakind(h2));
+		result2.add(fullhouse(h2));
+		result2.add(flush(h2));
+		result2.add(straight(h2));
+		result2.add(threeofakind(h2));
+		result2.add(twopair(h2));
+		result2.add(onepair(h2));
+		result2.add(highCard(h2));
+	
+		//System.out.println(" Hand1 category is  : \n" + result1);
+		//System.out.println(" Hand2 category is  : \n" + result2+"\n\n\n");
+		
+		if( result1.indexOf(true) - result2.indexOf(true)  <= 0){
+				winner = h1;
+				loser=h2;
+		}else{
+				winner = h2;
+				loser=h1;
+		}
+		
+		System.out.println("Winner is "+ winner +"\nloser is  "+ loser);
+	
+	}
+		
 	
 	public  boolean flush (Hand hand) {
 		for (int i=0;i<4;i++) {
-			if (hand.get(i).getCardSuit()! == hand.get(i+1).getCardSuit() )
+			if  ( !hand.seq.get(i).getCardSuit().equals(hand.seq.get(i+1).getCardSuit()) )
 					return false;
 		}
+		
+		for(int i=0;i<4;++i)
+			if(hand.seq.get(i).getCardNumber() - hand.seq.get(i).getCardNumber() != 1)
+				return true;
+		
+		return false;
 	}
 	
 	public  boolean fourofakind (Hand hand) {
 		int count=0;
 		int i=0;
-		while (int i=0;i<4;i++) {
-			if (hand.get(i).getCardNumber() == hand.get(i+1).getCardNumber() ){
+		
+		for(i=0;i<4;i++) {
+			if (hand.seq.get(i).getCardNumber() == hand.seq.get(i+1).getCardNumber() ){
 					count++;
 					i++;
 		}
 			else
 				i++;
-		if(Count!==4)
+		
+		if(count != 4)
 	 		return false;
-	}
-	
-	public  boolean straightflush (Hand hand) {
-		for(int i=4;i<=0;i--) { 
-			if(hand.get(i).getCardSuit() ==  hand.get(i+1).getCardSuit() && hand.get(i).getCardNumber() < hand.get(i+1).getCardNumber() )
-				return false;
 		}
+		
+		return true;
 	}
-	public  boolean royalflush (string h1) {
+		
+	public  boolean straightflush(Hand hand) {
 		for(int i=0;i<4;i++) { 
-			if(hand.get(i).getCardSuit() == hand.get(i+1).getCardSuit() && hand.get(i).getCardNumber()  > hand.get(i+1).getCardNumber() )
+			if(!(hand.seq.get(i).getCardSuit().equals(hand.seq.get(i+1).getCardSuit())) || !(hand.seq.get(i).getCardNumber() - hand.seq.get(i+1).getCardNumber() != 1 ))
 				return false;
 		}
+		
+		return true;
+	}
+	public  boolean royalflush (Hand hand) {
+	
+		for(int i=0;i<4;i++) { 
+			if(!(hand.seq.get(i).getCardSuit().equals(hand.seq.get(i+1).getCardSuit())))
+				return false;
+		}
+		
+		ArrayList<Cards> royalseq = new ArrayList<Cards>();
+		
+		royalseq.add(new Cards(13, hand.seq.get(0).getCardSuit()));
+		royalseq.add(new Cards(12, hand.seq.get(0).getCardSuit()));
+		royalseq.add(new Cards(11, hand.seq.get(0).getCardSuit()));
+		royalseq.add(new Cards(10, hand.seq.get(0).getCardSuit()));
+		royalseq.add(new Cards(1, hand.seq.get(0).getCardSuit()));
+		
+		for(int i =0 ;i<5 ;++i)
+			if(royalseq.get(i).compareTo(hand.seq.get(i)) != 0)
+				return false;
+		
+		return true;
+		
 	}
 
 	public  boolean straight (Hand hand) {
 		for(int i=0;i<4;i++) { 
-			if(hand.get(i).getCardNumber() < hand.get(i+1).getCardNumber() )
+			if(hand.seq.get(i).getCardNumber() - hand.seq.get(i+1).getCardNumber() != 1 )
 				return false;
 		}
+		
+		return true;
+	}
 	
 	public  boolean threeofakind (Hand hand) {
 		int count=0;
 		int i=0;
-		while (int i<4) {
-			if (hand.get(i).getCardNumber() == hand.get(i+1).getCardNumber() && hand.get(i+1) == Cards[i+2] ){
+		while (i<3) {
+			if (hand.seq.get(i).getCardNumber() == hand.seq.get(i+1).getCardNumber() && hand.seq.get(i+1).getCardNumber() == hand.seq.get(i+2).getCardNumber() ){
 					count++;
 					i++;
 			}
 			else
 				i++;
 		}
-		if(Count == 1)
+		
+		if(count == 3)
 	 		return true;
+	 	
+	 	return false;
 	}
 	
 	public  boolean twopair (Hand hand) {
 		int count=0;
 		int i=0;
-		while (int i<4) {
-			if (hand.get(i).getCardNumber() == hand.get(i+1).getCardNumber() ){
+		while (i<4) {
+			if (hand.seq.get(i).getCardNumber() == hand.seq.get(i+1).getCardNumber() ){
 					count++;
 					i++;
 			}
 			else
 				i++;
 		}
-		if(Count == 2)
+		
+		if(count == 2)
 	 		return true;
+	 	
+	 	return false;
 	}
 	public  boolean onepair (Hand hand) {
 		int count=0;
 		int i=0;
-		while (int i<4) {
-			if (hand.get(i).getCardNumber() == hand.get(i+1).getCardNumber() ){
+		while (i<4) {
+			if (hand.seq.get(i).getCardNumber() == hand.seq.get(i+1).getCardNumber() ){
 					count++;
 					i++;
 			}
 			else
 				i++;
 		}
-		if(Count == 1)
+		if(count == 1)
 	 		return true;
+	 	
+	 	return false;
 	}
 	
 	public  boolean fullhouse (Hand hand) {
 		int count=0;
 		int i=0;
-		while (int i<4) {
-			if (hand.get(i).getCardNumber() == hand.get(i+1).getCardNumber() ){
+		while (i<4) {
+			if (hand.seq.get(i).getCardNumber() == hand.seq.get(i+1).getCardNumber() ){
 					count++;
 					i++;
 			}
 			else
 				i++;
 		}
-		if(Count == 3)
+		if(count == 3)
 	 		return true;
+	 	
+	 	return false;
 	}
 	
 	public  boolean highCard (Hand hand) {
-		for (int i=0;i<4;i++) {
-			if (hand.get(i).getCardNumber() > hand.get(i+1).getCardNumber() )
-				return false;
-		}
+		
+		return true;
 	}
 
 
 }	
 	
 public class Main{
-	public  void main(String[] args){
-		
+	public static void main(String[] args){
+			Poker game = new Poker();
+			game.result();
 
 	}
-
 
 }
 
